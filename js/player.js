@@ -7,6 +7,9 @@ class Player {
         this.enemies_killed = 0
         this.level = 1
         this.hasAutoDmg = false
+        this.hitTargetInterval = setInterval(() => {
+            this.enemy.takeDamage(this.getAutoDmg());
+        }, this.getAutoDmgDps());
     }
 
     setEnemy(enemy) {
@@ -22,9 +25,14 @@ class Player {
 
     levelUp() {
         this.level++
+        select("#level").html(`Level: ${this.getLevel()}`)
         this.dmg *= 2
-        if (this.level == 2) {
-            const buyButton = select("#buyAutoDMG").elt.disabled = false;
+        select("#dmg").html(`Damage: ${this.getDmg()} points`)
+        if (this.level === 2) {
+            select("#buyAutoDMG").elt.disabled = false;
+            select("figure > figcaption").remove();
+            
+            select("#buyAutoDPS").elt.disabled = false;
             select("figure > figcaption").remove();
         }
     }
@@ -34,17 +42,19 @@ class Player {
     }
 
     addAutoDmg() {
-        setInterval(() => {
-            this.enemy.takeDamage(this.autodmg);
-        }, this.autodps);
+        this.hitTargetInterval
     }
 
     increaseAutoDmg() {
         this.autodmg++
     }
 
-    increaseDps(){
-        this.autodps -= 500
+    increaseDps(amount){
+        this.autodps -= amount
+        clearInterval(this.hitTargetInterval)
+        this.hitTargetInterval = setInterval(() => {
+            this.enemy.takeDamage(this.getAutoDmg());
+        }, this.getAutoDmgDps());
     }
 
     getMoney() {
@@ -57,6 +67,10 @@ class Player {
 
     getAutoDmg() {
         return this.autodmg;
+    }
+
+    getAutoDmgDps(){
+        return this.autodps
     }
 
     getLevel() {
