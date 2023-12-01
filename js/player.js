@@ -1,3 +1,5 @@
+import BigNum from "./BigNum.js"
+
 class Player {
     constructor(money, autodmg, autodps, debug = false) {
         if (!debug) {
@@ -13,10 +15,10 @@ class Player {
             this.autoDpsCost = 50
         }
         else {
-            this.money = BigInt(1e15)
-            this.dmg = BigInt(1e15)
-            this.autodmg = BigInt(1e4)
-            this.autodps = BigInt(1000)
+            this.money = new BigNum(1.5e16)
+            this.dmg = new BigNum(1.2e10)
+            this.autodmg = new BigNum(1e4)
+            this.autodps = new BigNum(1000)
             this.enemies_killed = 0
             this.level = 1
             this.hasAutoDmg = false
@@ -44,7 +46,7 @@ class Player {
         select("#dmg").html(`Damage: ${this.getDmg()} points`)
         if (this.level === 2) {
             select("#buyAutoDMG").elt.disabled = false;
-            select("figure > figcaption").remove();
+            select("div > span#warning").remove();
         }
     }
 
@@ -66,15 +68,15 @@ class Player {
             select("#money").html(`Money: $ ${this.getMoney()}`)
 
             select("#buyAutoDPS").elt.disabled = false;
-            select("figure > figcaption").remove();
+            select("div > span#warning").remove();
         }
     }
 
     increaseAutoDmg() {
         if (this.money >= this.autoDmgCost) {
-            this.autoDmgCost = int(this.autoDmgCost * 1.5)
             this.autodmg++
             this.money -= this.autoDmgCost
+            this.autoDmgCost = int(this.autoDmgCost * 1.5)
             select("#money").html(`Money: $ ${this.getMoney()}`)
         }
     }

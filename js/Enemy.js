@@ -23,7 +23,7 @@ class Enemy {
 			this.btn.remove();
 			this.player.addKill();
 			console.log(this.player.enemies_killed)
-			this.player.addMoney(int(this.maxHP * 0.3));
+			this.player.addMoney(int(this.maxHP * 1.5));
 			// console.log("Level:" + player.getLevel())
 			// console.log("DMG: " + player.getDmg())
 			select("#money").html(`Money: $ ${this.player.getMoney()}`)
