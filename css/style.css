@@ -18,6 +18,12 @@ section{
     height: 25vh;
     align-items: center;
     justify-content: space-around;
+    background-color: black;
+    color: white;
+}
+
+div#buttons{
+    
 }
 
 p{

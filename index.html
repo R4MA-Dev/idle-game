@@ -13,21 +13,29 @@
     <main>
     </main>
     <section>
-        <p id="money"></p>
-        <p id="dmg"></p>
-        <p id="level"></p>
-        <p id="auto-damage"></p>
-        <p id="auto-damage-dps"></p>
         <figure>
-            <button id="buyAutoDMG" disabled>Buy Auto-Damage</button>
+            <button id="buyAutoDMG" disabled>Buy Auto-Damage - <span id="costAutoDmg">$50</span></button>
             <figcaption>
                 You have to reach level 5 to buy auto-damage
             </figcaption>
-            <button id="buyAutoDPS" disabled>Increase Auto-Damage DPS</button>
+            <br><br>
+            <button id="buyAutoDPS" disabled>Increase Auto-Damage DPS - <span id="costAutoDps">$50</span></button>
             <figcaption>
                 You need auto-damage for this action
             </figcaption>
         </figure>
+        <div id="buttons">
+            <button>Save Game</button>
+            <button>Reload Game</button>
+            <button>Quit Game</button>
+        </div>
+        <div id="estadisticas">
+            <p id="money"></p>
+            <p id="dmg"></p>
+            <p id="level"></p>
+            <p id="auto-damage"></p>
+            <p id="auto-damage-dps"></p>
+        </div>
     </section>
     <script src="js/sketch.js" type="module"></script>
 </body>
