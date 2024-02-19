@@ -1,3 +1,5 @@
+import BigNum from "./BigNum.js";
+
 
 function mapPercentageToHue(p) {
 	/**
@@ -11,25 +13,33 @@ class Enemy {
 	constructor(player, maxHP = 10) {
 		this.player = player;
 		this.player.setEnemy(this);
-		this.maxHP = int(maxHP);
+		const max_hp = new BigNum(maxHP);
+		const handler = {
+			set: (target, prop, value) => {
+				target[prop] = value;
+				console.log(`Proxy: t: ${target} p: ${prop} v: ${value}`);
+				return true;
+			}
+		};
+		this.maxHP = new Proxy(max_hp, handler);
 		this.createButton(this.maxHP);
 	}
 
 	takeDamage(dmg) {
-		this.currentHP -= dmg;
+		this.currentHP.addEqual(-dmg.value, "currentHP")
 
-		if (this.currentHP <= 0) {
+		if (this.currentHP.isLessThanOrEqualTo(0)) {
 			//console.log("HP: " + this.currentHP);
 			this.btn.remove();
 			this.player.addKill();
-			console.log(this.player.enemies_killed)
-			this.player.addMoney(int(this.maxHP * 1.5));
+			this.player.addMoney(this.maxHP.mult(1.5));
 			// console.log("Level:" + player.getLevel())
 			// console.log("DMG: " + player.getDmg())
 			select("#money").html(`Money: $ ${this.player.getMoney()}`)
-			this.createButton(this.maxHP * 1.2);
+			this.createButton(this.maxHP.mult(1.2));
+			return;
 		}
-
+		
 		this.btn.html(this.currentHP);
 	}
 
@@ -39,7 +49,7 @@ class Enemy {
 		this.btn.size(300, 300);
 		this.btn.addClass("enemy");
 
-		this.maxHP = int(maxHP)
+		this.maxHP = maxHP;
 		this.currentHP = this.maxHP;
 		this.btn.html(this.currentHP);
 

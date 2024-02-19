@@ -1,4 +1,7 @@
 const mapSuffix = num => {
+	if (num < 3) {
+		return {suffix: "", carry: num};
+	}
 	const suffixes = ["k", "M", "B", "T", "Q"];
 	let index = Math.floor((num - 3) / 3);
 
@@ -11,24 +14,50 @@ const mapSuffix = num => {
 		: undefined;
 };
 
-class BigNum extends Number {
+class BigNum {
 	constructor(num) {
-		super(num);
-		const numAsExp = num.toExponential();  // Will output "X.XXXXe±XXXX"
-		const indexOfExponent = numAsExp.indexOf("e");
+		this.initialize(num);
+	}
 
-		this.significand = Number(numAsExp.slice(0, indexOfExponent));
-		this.exponent = Number(numAsExp.slice(indexOfExponent + 2));
+	initialize(num) {
+		this.value = num;
+		this.numAsExp = num.toExponential(); // Will output "X.XXXXe±XXXX"
+		this.indexOfExponent = this.numAsExp.indexOf("e");
 
-		const suffixAndCarry = mapSuffix(this.exponent);
+		this.displayedForm = BigNum.generateDisplayedForm(this.numAsExp, this.indexOfExponent);
+	}
+
+	static generateDisplayedForm(numAsExp, indexOfExponent) {
+		const significand = Number(numAsExp.slice(0, indexOfExponent));
+		const exponent = Number(numAsExp.slice(indexOfExponent + 2));
+		const suffixAndCarry = mapSuffix(exponent);
 		const suffix = suffixAndCarry.suffix;
 		const carry = Math.pow(10, suffixAndCarry.carry);
 
-		this.displayedForm = (this.significand * carry).toFixed(2) + suffix;
+		if (suffix === "") {
+			return (significand * carry).toString();
+		}
+		return (significand * carry).toFixed(2) + suffix;
 	}
 
 	toString() {
 		return this.displayedForm;
+	}
+
+	addEqual(other) {
+		this.initialize(this.value + other);
+	}
+
+	mult(other) {
+		return new BigNum(this.value * other);
+	}
+
+	multEqual(other) {
+		this.initialize(this.value * other);
+	}
+
+	isLessThanOrEqualTo(other) {
+		return this.value <= other;
 	}
 }
 

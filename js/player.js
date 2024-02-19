@@ -3,16 +3,14 @@ import BigNum from "./BigNum.js"
 class Player {
     constructor(money, autodmg, autodps, debug = false) {
         if (!debug) {
-            this.money = money
-            this.dmg = 1
-            this.autodmg = autodmg
-            this.autodps = autodps
+            this.money = new BigNum(money)
+            this.dmg = new BigNum(1)
+            this.autodmg = new BigNum(autodmg)
+            this.autodps = new BigNum(autodps)
             this.enemies_killed = 0
             this.level = 1
             this.hasAutoDmg = false
             this.hitTargetInterval = null
-            this.autoDmgCost = 50
-            this.autoDpsCost = 50
         }
         else {
             this.money = new BigNum(1.5e16)
@@ -23,8 +21,8 @@ class Player {
             this.level = 1
             this.hasAutoDmg = false
             this.hitTargetInterval = null
-            this.autoDmgCost = 50
-            this.autoDpsCost = 50
+            this.autoDmgCost = new BigNum(50)
+            this.autoDpsCost = new BigNum(50)
         }
     }
 
@@ -51,7 +49,7 @@ class Player {
     }
 
     addMoney(amount) {
-        this.money += amount;
+        this.money.addEqual(amount);
     }
 
     addAutoDmg() {
@@ -60,7 +58,7 @@ class Player {
             this.hitTargetInterval = setInterval(() => {
                 this.enemy.takeDamage(this.getAutoDmg());
             }, this.getAutoDmgDps());
-            this.money -= this.autoDmgCost
+            this.addMoney(-this.autoDmgCost)
 
             select("#buyAutoDMG").html(`Increase Auto-Damage - <span>\$ ${this.autoDmgCost}</span>`)
             select("#auto-damage").html(`Auto-Damage: ${this.getAutoDmg()} points`)
