@@ -32,7 +32,7 @@ class Enemy {
 			//console.log("HP: " + this.currentHP);
 			this.btn.remove();
 			this.player.addKill();
-			this.player.addMoney(this.maxHP.mult(1.5));
+			this.player.addMoney(this.maxHP.mult(1.5).value);
 			// console.log("Level:" + player.getLevel())
 			// console.log("DMG: " + player.getDmg())
 			select("#money").html(`Money: $ ${this.player.getMoney()}`)
