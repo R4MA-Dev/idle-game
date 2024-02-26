@@ -13,15 +13,7 @@ class Enemy {
 	constructor(player, maxHP = 10) {
 		this.player = player;
 		this.player.setEnemy(this);
-		const max_hp = new BigNum(maxHP);
-		const handler = {
-			set: (target, prop, value) => {
-				target[prop] = value;
-				console.log(`Proxy: t: ${target} p: ${prop} v: ${value}`);
-				return true;
-			}
-		};
-		this.maxHP = new Proxy(max_hp, handler);
+		this.maxHP = new BigNum(maxHP);
 		this.createButton(this.maxHP);
 	}
 
