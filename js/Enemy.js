@@ -50,7 +50,7 @@ class Enemy {
 		this.btn.addClass("enemy");
 
 		this.maxHP = maxHP;
-		this.currentHP = this.maxHP;
+		this.currentHP = new BigNum(this.maxHP.value);
 		this.btn.html(this.currentHP);
 
 		this.h = 120;
