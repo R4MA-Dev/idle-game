@@ -2,6 +2,8 @@ import BigNum from "./BigNum.js"
 
 class Player {
     constructor(money, autodmg, autodps, debug = false) {
+        this.autoDmgCost = new BigNum(50)
+        this.autoDpsCost = new BigNum(50)
         if (!debug) {
             this.money = new BigNum(money)
             this.dmg = new BigNum(1)
@@ -16,13 +18,11 @@ class Player {
             this.money = new BigNum(1.5e16)
             this.dmg = new BigNum(1.2e10)
             this.autodmg = new BigNum(1e4)
-            this.autodps = new BigNum(1000)
+            this.autodps = new BigNum(3000)
             this.enemies_killed = 0
             this.level = 1
             this.hasAutoDmg = false
             this.hitTargetInterval = null
-            this.autoDmgCost = new BigNum(50)
-            this.autoDpsCost = new BigNum(50)
         }
     }
 
@@ -40,7 +40,7 @@ class Player {
     levelUp() {
         this.level++
         select("#level").html(`Level: ${this.getLevel()}`)
-        this.dmg *= 2
+        this.dmg.multEqual(2)
         select("#dmg").html(`Damage: ${this.getDmg()} points`)
         if (this.level === 2) {
             select("#buyAutoDMG").elt.disabled = false;
@@ -53,7 +53,7 @@ class Player {
     }
 
     addAutoDmg() {
-        if (this.money >= this.autoDmgCost) {
+        if (this.money.value >= this.autoDmgCost.value) {
             this.hasAutoDmg = true;
             this.hitTargetInterval = setInterval(() => {
                 this.enemy.takeDamage(this.getAutoDmg());
@@ -71,21 +71,21 @@ class Player {
     }
 
     increaseAutoDmg() {
-        if (this.money >= this.autoDmgCost) {
-            this.autodmg++
-            this.money -= this.autoDmgCost
-            this.autoDmgCost = int(this.autoDmgCost * 1.5)
+        if (this.money.value >= this.autoDmgCost.value) {
+            this.autodmg.addEqual(1)
+            this.money.addEqual(-this.autoDmgCost.value)
+            this.autoDmgCost.multEqual(1.5)
             select("#money").html(`Money: $ ${this.getMoney()}`)
         }
     }
 
     increaseDps(amount) {
-        if (this.money >= this.autoDpsCost) {
-            this.money -= this.autoDpsCost
+        if (this.money.value >= this.autoDpsCost.value) {
+            this.money.addEqual(-this.autoDpsCost.value)
             select("#money").html(`Money: $ ${this.getMoney()}`)
 
-            this.autoDpsCost = int(this.autoDpsCost * 1.5)
-            this.autodps -= amount
+            this.autoDpsCost.multEqual(1.5)
+            this.autodps.addEqual(-amount)
             clearInterval(this.hitTargetInterval)
             this.hitTargetInterval = setInterval(() => {
                 this.enemy.takeDamage(this.getAutoDmg());
@@ -106,7 +106,7 @@ class Player {
     }
 
     getAutoDmgDps() {
-        return this.autodps
+        return this.autodps.value
     }
 
     getLevel() {

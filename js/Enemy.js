@@ -18,15 +18,12 @@ class Enemy {
 	}
 
 	takeDamage(dmg) {
-		this.currentHP.addEqual(-dmg.value, "currentHP")
+		this.currentHP.addEqual(-dmg.value)
 
 		if (this.currentHP.isLessThanOrEqualTo(0)) {
-			//console.log("HP: " + this.currentHP);
 			this.btn.remove();
 			this.player.addKill();
 			this.player.addMoney(this.maxHP.mult(1.5).value);
-			// console.log("Level:" + player.getLevel())
-			// console.log("DMG: " + player.getDmg())
 			select("#money").html(`Money: $ ${this.player.getMoney()}`)
 			this.createButton(this.maxHP.mult(1.2));
 			return;

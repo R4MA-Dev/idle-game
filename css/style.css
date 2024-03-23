@@ -103,7 +103,7 @@ canvas {
     box-shadow: 0px 0px 15px black;
     outline: none;
     border: none;
-    font-size: 100px;
+    font-size: 50px;
     font-family: "Courier New";
     transition: scale 0.3s;
 }

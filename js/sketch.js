@@ -12,27 +12,22 @@ function setup() {
 
     const buyAutoDmgBtn = select("#buyAutoDMG");
     buyAutoDmgBtn.mousePressed(e => {
+
         if (!player.hasAutoDmg) {
             player.addAutoDmg();
         } else if (player.hasAutoDmg) {
             player.increaseAutoDmg();
             buyAutoDmgBtn.html(`Increase Auto-Damage - <span>\$ ${player.autoDmgCost}</span>`)
-            select("#auto-damage").html(`Auto-Damage: ${player.getAutoDmg()}`)
+            select("#auto-damage").html(`Auto-Damage: ${player.getAutoDmg()} points`)
         }
     });
 
     const buyAutoDpsBtn = select("#buyAutoDPS");
-    buyAutoDpsBtn.mousePressed((e) => {
+    buyAutoDpsBtn.mousePressed(e => {
         player.increaseDps(150)
         buyAutoDpsBtn.html(`Increase Auto-Damage DPS - <span>\$ ${player.autoDpsCost}</span>`)
         select("#auto-damage-dps").html(`Auto-Damage DPS (Miliseconds): ${player.getAutoDmgDps()}`)
     });
-    /*setInterval(() => {
-        enemy.takeDamage(1)
-    }, 3000)*/
-    //player.addMoney(20)
-    //console.log(player.getMoney())
-    //console.log(enemy)
 }
 
 window.setup = setup;

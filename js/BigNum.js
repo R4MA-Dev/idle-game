@@ -20,8 +20,8 @@ class BigNum {
 	}
 
 	initialize(num) {
-		this.value = num;
-		this.numAsExp = num.toExponential(); // Will output "X.XXXXe±XXXX"
+		this.value = Math.round(num);
+		this.numAsExp = this.value.toExponential(); // Will output "X.XXXXe±XXXX"
 		this.indexOfExponent = this.numAsExp.indexOf("e");
 
 		this.displayedForm = BigNum.generateDisplayedForm(this.numAsExp, this.indexOfExponent);
@@ -34,8 +34,9 @@ class BigNum {
 		const suffix = suffixAndCarry.suffix;
 		const carry = Math.pow(10, suffixAndCarry.carry);
 
+		const result = Math.round(significand * carry);
 		if (suffix === "") {
-			return (significand * carry).toString();
+			return result.toString();
 		}
 		return (significand * carry).toFixed(2) + suffix;
 	}
